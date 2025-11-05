@@ -1,0 +1,29 @@
+[
+    {
+        "Csv_Relative_url" : "DataFlowX/refs/heads/main/Data/olist_customers_dataset.csv",
+        "FileName" : "olist_customers_dataset.csv"
+     },
+     {
+        "Csv_Relative_url" : "DataFlowX/refs/heads/main/Data/olist_geolocation_dataset.csv",
+        "FileName" : "olist_geolocation_dataset.csv"
+     },
+     {
+        "Csv_Relative_url" : "DataFlowX/refs/heads/main/Data/olist_order_items_dataset.csv",
+        "FileName" : "olist_order_items_dataset.csv"
+     },
+     {
+        "Csv_Relative_url" : "DataFlowX/refs/heads/main/Data/olist_order_reviews_dataset.csv",
+        "FileName" : "olist_order_reviews_dataset.csv"
+     },{
+        "Csv_Relative_url" : "DataFlowX/refs/heads/main/Data/olist_orders_dataset.csv",
+        "FileName" : "olist_orders_dataset.csv"
+     },
+     {
+        "Csv_Relative_url" : "DataFlowX/refs/heads/main/Data/olist_sellers_dataset.csv",
+        "FileName" : "olist_sellers_dataset.csv"
+     },
+     {
+        "Csv_Relative_url" : "DataFlowX/refs/heads/main/Data/product_category_name_translation.csv",
+        "FileName" : "product_category_name_translation.csv"
+     },
+]
