@@ -41,7 +41,7 @@ DataFlowX is an **enterprise-grade data engineering solution** built on Microsof
 ## 🏗️ Architecture
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/siddharths060/DataFlowX/main/architecture_diagram.png" alt="DataFlowX Architecture" width="100%"/>
+  <img src="images/Architecture Diagram.png" alt="DataFlowX Architecture" width="100%"/>
 </div>
 
 ### Pipeline Flow: Data Journey from Source to Insights
@@ -448,167 +448,6 @@ WITH (
 
 ---
 
-## 📚 Resources & Documentation
-
-# Clean and transform
-df_cleaned = df_orders \
-    .dropDuplicates() \
-    .na.drop() \
-    .withColumn("order_date", F.to_date("order_purchase_timestamp")) \
-    .withColumn("delivery_delay", 
-                F.datediff("order_delivered_customer_date", 
-                          "order_estimated_delivery_date"))
-
-# Write to Silver
-df_cleaned.write.mode("overwrite").parquet("/mnt/silver/orders")
-```
-
-### Step 3: Data Enrichment (MongoDB Integration)
-- Join product data with category translations
-- Standardize category names from Portuguese to English
-
-### Step 4: Analytics Aggregation (Silver → Gold)
-```python
-# Calculate business metrics
----
-
-## 🔄 Pipeline Workflow
-
-### Bronze → Silver → Gold Transformation
-
-#### **Stage 1: Data Ingestion (Bronze Layer)**
-```
-Multi-Source → Azure Data Factory → Bronze Layer (ADLS Gen2)
-```
-- HTTP connector: GitHub CSV files
-- SQL connector: MySQL transactional data
-- NoSQL connector: MongoDB enrichment data
-
-#### **Stage 2: Data Cleansing (Silver Layer)**
-
-```python
-# PySpark transformation example
-from pyspark.sql import functions as F
-
-# Read raw data
-df_orders = spark.read.parquet("/mnt/bronze/orders")
-
-# Clean and standardize
-df_cleaned = (df_orders
-    .dropDuplicates()
-    .na.drop()
-    .withColumn("order_date", F.to_date("order_purchase_timestamp"))
-    .withColumn("delivery_delay_days", 
-                F.datediff("order_delivered_customer_date", 
-                          "order_estimated_delivery_date")))
-
-# Write to Silver
-df_cleaned.write.mode("overwrite").parquet("/mnt/silver/orders")
-```
-
-**Key Operations**: Deduplication • Null handling • Type standardization • Data validation
-
-#### **Stage 3: Data Enrichment**
-- Join with MongoDB for category translations (PT → EN)
-- Standardize product categorization
-- Apply business rules and calculated fields
-
-#### **Stage 4: Business Aggregations (Gold Layer)**
-
-```python
-# Calculate KPIs
-order_metrics = (df_orders
-    .groupBy("order_status", "customer_state")
-    .agg(
-        F.count("order_id").alias("total_orders"),
-        F.avg("delivery_delay_days").alias("avg_delivery_delay"),
-        F.sum("payment_value").alias("total_revenue")
-    ))
-
-df_cleaned.write.mode("overwrite").parquet("/mnt/silver/orders")
-```
-
-### Step 3: Data Enrichment (MongoDB Integration)
-- Join product data with category translations
-- Standardize category names from Portuguese to English
-
-### Step 4: Analytics Aggregation (Silver → Gold)
-```python
-# Calculate business metrics
-order_metrics.write.mode("overwrite").parquet("/mnt/gold/order_metrics")
-```
-
-**Metrics Generated**: Order volume • Revenue analysis • Delivery performance • Customer satisfaction
-
-#### **Stage 5: Analytics Serving (Synapse)**
-
-```sql
--- Create external table
-CREATE EXTERNAL TABLE gold.order_metrics
-WITH (
-    LOCATION = '/gold/order_metrics/',
-    DATA_SOURCE = AzureDataLake,
-    FILE_FORMAT = ParquetFormat
-);
-```
-
----
-
-## 📈 Business Insights & Analytics
-
-### Key Performance Indicators
-
-<table>
-<tr>
-<td width="50%">
-
-**📦 Operational Metrics**
-- Order fulfillment rates
-- Average delivery time vs. estimates
-- On-time delivery percentage
-- Order status distribution
-
-**💰 Financial Analytics**
-- Revenue by product category
-- Payment method distribution
-- Installment payment trends
-- Average order value by region
-
-</td>
-<td width="50%">
-
-**👥 Customer Analytics**
-- Geographic customer distribution
-- Customer satisfaction scores (reviews)
-- Repeat purchase analysis
-- Customer lifetime value segments
-
-**🏪 Seller Performance**
-- Top-performing sellers by revenue
-- Seller delivery performance rankings
-- Product category performance
-- Inventory turnover rates
-
-</td>
-</tr>
-</table>
-
----
-
-## 💼 Skills & Competencies Demonstrated
-
-| Category | Technologies & Concepts |
-|----------|------------------------|
-| **Cloud Engineering** | Azure Data Factory • Azure Databricks • Azure Synapse Analytics • ADLS Gen2 |
-| **Big Data Processing** | Apache Spark • PySpark • Distributed Computing • Data Partitioning |
-| **Data Architecture** | Medallion Architecture • Data Lake Design • ETL/ELT Patterns |
-| **Data Integration** | Multi-source Ingestion • HTTP/SQL/NoSQL Connectors • Data Enrichment |
-| **Data Modeling** | Dimensional Modeling • Star Schema • Analytics Tables |
-| **Programming** | Python • SQL • PySpark • Shell Scripting |
-| **Best Practices** | Data Quality Management • Error Handling • Performance Optimization |
-
----
-
 ## 📁 Project Structure
 
 ```
@@ -628,6 +467,9 @@ DataFlowX/
 ├── 📂 Database/                       # Database utilities
 │   ├── connect_to_database.py        # MySQL connection module
 │   └── add_table_and_values_to_database.py  # Batch upload utility
+│
+├── 📂 images/                         # Architecture diagrams
+│   └── Architecture Diagram.png
 │
 ├── 📄 README.md
 └── 📄 LICENSE
@@ -656,15 +498,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👤 Author
-
-**Siddharth Sharma**
+## 👤 Contact
 
 [![GitHub](https://img.shields.io/badge/GitHub-siddharths060-181717?style=flat-square&logo=github)](https://github.com/siddharths060)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat-square&logo=linkedin)](https://linkedin.com/in/siddharths060)
